@@ -1,5 +1,4 @@
 """a trivia game"""
-
 import json
 import random
 #round = 10 qs
@@ -17,7 +16,7 @@ with open('Apprentice_TandemFor400_Data.json') as qs:
 #questions = {
 #   question_id: {
 #       question: "",
-#       incorrect_ans: [], 
+#       possibilites: [], 
 #       correct_ans: "",
 #   }
 # }
@@ -34,40 +33,63 @@ for q in question_data:
 
 #convert keys to list
 qs_avail = list(questions.keys())
+#randomize keys
 random.shuffle(qs_avail)
+#choose first 10 keys that will be the questions asked during the game
 round_qs = qs_avail[0:10]
 
 score = 0
-
+    
 for curr_question in round_qs: 
     possible_ans = questions[curr_question]["possibilities"]
+    correct = questions[curr_question]["correct"]
     # randomly generate answer order
     random.shuffle(possible_ans)
     print(f"{questions[curr_question]['question']}")
 
-    
+    #print out mult choice options
     for i in range(0, len(possible_ans)): 
         print(f"{i+1}: {possible_ans[i]}")
-
-    guess = int(input("Please choose one of the above options by writing the integer of the answer you choose."))
+    
+    #store user's answer
+    guess = int(input("Please choose one of the above options by writing the number corresponding to your choice."))
     
     #when user answers: 
-        #make sure input is valid
-        #compare the answer with correct answer from dict
-    if questions[curr_question]["correct"] == possible_ans[guess-1]: 
-        #if answer correct: 
-            #plus 1 to score
+    #to do: make sure input is valid
+    #compare the answer with correct answer from dict
+    if correct == possible_ans[guess-1]:  
+        #plus 1 to score
         score += 1
-            #inform user answer is correct
+        #inform user answer is correct
         print(f"{questions[curr_question]['correct']} is correct!")
         #else: 
     else: 
             #inform user answer incorrect, display correct ans
         print(f"Sorry, the correct answer was {questions[curr_question]['correct']}")
 
-print(score)
+print(f"You finished the game! Here's your score: {score}/10")
 
+# ATTEMPTS AT VALIDATING USER INPUT, not enought time to implement
+# def guess_validation(): 
+#     try: 
+#         guess = int(input("Please choose one of the above options by writing the number corresponding to your choice."))
+#     except ValueError: 
+#         guess = int(input("Please enter a valid number."))
     
+#     if 1 <= guess <= 4    
+
+#     while !guess_validation(guess):
+#         guess = input("Please enter a valid option.")
+    
+    # try: 
+    #     guess = int(input("Please choose one of the above options by writing the number corresponding to your choice."))
+    # except ValueError: 
+    #     guess = int(input("Please enter a valid number."))
+
+    # if guess < 1 or guess > 4: 
+    #     guess = int(input("Please choose a number corresponding to one of the options"))
+
+
 
 #code from when i was going to increment qs_asked until 10 and randomly choose a question each time
 #while questions_asked < total_questions (10): 
